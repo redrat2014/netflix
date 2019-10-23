@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, FlatList, Image } from 'react-native';
 
 const shows_first = [
     {
@@ -86,7 +86,7 @@ export default class List extends Component {
 
     render() {
         return (
-            <View style={styles.wrapper}>
+            <ScrollView style={styles.wrapper}>
                 <View style={styles.listWrapper}>
                     <Text style={styles.title}>My List</Text>
                     <FlatList
@@ -105,7 +105,16 @@ export default class List extends Component {
                         data={shows_second}
                     />
                 </View>
-            </View>
+                <View style={styles.listWrapper}>
+                    <Text style={styles.title}>Most Viewed</Text>
+                    <FlatList
+                        horizontal
+                        ItemSeparatorComponent={() => <View style={styles.separator} />}
+                        renderItem={({ item }) => this._renderItem(item)}
+                        data={shows_first}
+                    />
+                </View>
+            </ScrollView>
         );
     }
 }
@@ -113,6 +122,7 @@ export default class List extends Component {
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
+        backgroundColor: 'black',
     },
     listWrapper: {
 
