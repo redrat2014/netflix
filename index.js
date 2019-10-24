@@ -1,5 +1,9 @@
 import {AppRegistry} from 'react-native';
-import App from './src/app';
-import {name as appName} from './app.json';
+import indexApp from './src/indexApp';
+import {name as netflix} from './app.json';
 
-AppRegistry.registerComponent(appName, () => App);
+AppRegistry.registerComponent(netflix, () => indexApp);
+
+// import { AppRegistry } from 'react-native';
+// import IndexApp from './src/'
+// AppRegistry.registerComponent('netflix', () => IndexApp);

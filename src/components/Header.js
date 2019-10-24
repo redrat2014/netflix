@@ -10,21 +10,24 @@ const Header = props => (
         <TouchableWithoutFeedback
             onPress={() => props.toggleSideMenu()}
         >
-            <Icon 
+            <Icon
                 name="bars"
                 color="white"
                 size={25}
             />
         </TouchableWithoutFeedback>
-        <Image 
+        <Image
             source={logo}
             style={styles.logo}
         />
-        <Icon 
-            name="search"
-            color="white"
-            size={25}
-        />
+        <TouchableWithoutFeedback onPress={() => props.navigator.push({ident: 'Search'})}>
+            <Icon
+                name="search"
+                color="white"
+                size={25}
+            />
+        </TouchableWithoutFeedback>
+
     </View>
 );
 

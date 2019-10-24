@@ -8,6 +8,8 @@ import Slider from './components/Slider';
 import Header from './components/Header';
 import Menu from './components/Menu';
 
+import Search from './components/Search';
+
 export default class App extends Component {
     constructor(props) {
         super(props);
@@ -29,13 +31,13 @@ export default class App extends Component {
     render() {
         return (
             <View style={styles.wrapper}>
-                <SideMenu
+             <SideMenu
                     menu={<Menu />}
                     isOpen={this.state.isOpen}
                     onChange={(isOpen) => this.updateMenu(isOpen)}
                 >
                     <View style={styles.wrapper}>
-                        <Header toggleSideMenu={this.toggleSideMenu.bind(this)} />
+                        <Header navigator={this.props.navigator} toggleSideMenu={this.toggleSideMenu.bind(this)} />
                         <Slider />
                         <List />
                     </View>
