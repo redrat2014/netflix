@@ -39,7 +39,7 @@ export default class App extends Component {
                     <View style={styles.wrapper}>
                         <Header navigator={this.props.navigator} toggleSideMenu={this.toggleSideMenu.bind(this)} />
                         <Slider />
-                        <List />
+                        <List navigator={this.props.navigator} />
                     </View>
 
                 </SideMenu>
