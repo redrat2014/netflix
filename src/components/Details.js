@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableHighlight, TouchableWithoutFeedback, ScrollView, Dimensions } from 'react-native';
+import { 
+    View, 
+    Text, 
+    StyleSheet, 
+    Image,  
+    TouchableWithoutFeedback, 
+    ScrollView, 
+    Dimensions,
+    Share
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Orientation from 'react-native-orientation';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import TabsEpisodes from './TabsEpisodes';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 
@@ -23,6 +33,21 @@ export default class Details extends Component {
             ident: 'Video',
             title: name
         });
+    }
+
+    onShare() {
+      Share.share({
+          title: 'Designated Survivor',
+          url: 'www.youtube.com',
+          message: 'Awesome Tv show'
+      }, {
+        //android
+        dialogTitle: 'Share this awesome content',
+        //ios
+        excludedActivityTypes: [
+            'com.apple.UIKit.activity.PostToTwitter'
+        ]
+      });
     }
 
     render() {
@@ -77,15 +102,20 @@ export default class Details extends Component {
                             />
                             <Text style={styles.text}>My List</Text>
                         </View>
-                        <View style={styles.myShareIcon}>
-                            <Icon
-                                name="share-alt"
-                                color="grey"
-                                size={25}
-                                style={styles.shareIcon}
-                            />
-                            <Text style={styles.text}>Share</Text>
-                        </View>
+                        <TouchableHighlight
+                            onPress={this.onShare}
+                        >
+                            <View style={styles.myShareIcon}>
+                                <Icon
+                                    name="share-alt"
+                                    color="grey"
+                                    size={25}
+                                    style={styles.shareIcon}
+                                />
+                                <Text style={styles.text}>Share</Text>
+                            </View>
+                        </TouchableHighlight>
+                        
                     </View>
                 </View>
 
