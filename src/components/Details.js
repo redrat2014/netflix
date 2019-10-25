@@ -1,14 +1,30 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, TouchableHighlight, TouchableWithoutFeedback, ScrollView, Dimensions } from 'react-native';
-
-const { width, height } = Dimensions.get('window');
+import LinearGradient from 'react-native-linear-gradient';
+import Orientation from 'react-native-orientation';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import TabsEpisodes from './TabsEpisodes';
-import LinearGradient from 'react-native-linear-gradient';
 
-export default class List extends Component {
+const { width, height } = Dimensions.get('window');
+
+export default class Details extends Component {
+
+    componentWillMount() {
+        Orientation.lockToPortrait();
+    }
+
+    openVideo() {
+        const { name } = this.props.item;
+
+        Orientation.lockToLandscape();
+        this.props.navigator.push({
+            ident: 'Video',
+            title: name
+        });
+    }
+
     render() {
         const { episodes } = this.props.item.details;
         const { name } = this.props.item;
@@ -21,7 +37,7 @@ export default class List extends Component {
                     style={styles.thumbnail}
                 />
                 <View style={styles.buttonPlay}>
-                    <TouchableWithoutFeedback onPress={() => null}>
+                    <TouchableWithoutFeedback onPress={() => this.openVideo()}>
                         <View>
                             <Icon
                                 name="play-circle"

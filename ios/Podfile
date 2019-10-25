@@ -42,6 +42,10 @@ target 'netflix' do
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
+
+  pod 'react-native-orientation', :path => '../node_modules/react-native-orientation'
+
   target 'netflixTests' do
     inherit! :search_paths
     # Pods for testing

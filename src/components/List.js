@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text, StyleSheet, FlatList, Image, TouchableWithoutFeedback } from 'react-native';
+import Orientation from 'react-native-orientation';
 
 const shows_first = [
     {
@@ -414,6 +415,11 @@ const shows_second = [
 ]
 
 export default class List extends Component {
+
+    componentWillMount() {
+        Orientation.lockToPortrait();
+    }
+
     newPushContent(item) {
         this.props.navigator.push({
             ident: 'Details',
