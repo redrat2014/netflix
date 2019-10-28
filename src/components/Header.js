@@ -5,31 +5,33 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import logo from '../images/Netflix-logo.png';
 
-const Header = props => (
-    <View style={styles.wrapper}>
-        <TouchableWithoutFeedback
-            onPress={() => props.toggleSideMenu()}
-        >
-            <Icon
-                name="bars"
-                color="white"
-                size={25}
+const Header = props => {
+    const { navigate } = props.navigation;
+    return (
+        <View style={styles.wrapper}>
+            <TouchableWithoutFeedback
+                onPress={() => props.toggleSideMenu()}
+            >
+                <Icon
+                    name="bars"
+                    color="white"
+                    size={25}
+                />
+            </TouchableWithoutFeedback>
+            <Image
+                source={logo}
+                style={styles.logo}
             />
-        </TouchableWithoutFeedback>
-        <Image
-            source={logo}
-            style={styles.logo}
-        />
-        <TouchableWithoutFeedback onPress={() => props.navigator.push({ident: 'Search'})}>
-            <Icon
-                name="search"
-                color="white"
-                size={25}
-            />
-        </TouchableWithoutFeedback>
-
-    </View>
-);
+            <TouchableWithoutFeedback onPress={() => navigate('Search')}>
+                <Icon
+                    name="search"
+                    color="white"
+                    size={25}
+                />
+            </TouchableWithoutFeedback>
+        </View>
+    );
+}
 
 const styles = StyleSheet.create({
     wrapper: {

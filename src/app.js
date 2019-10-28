@@ -37,9 +37,9 @@ export default class App extends Component {
                     onChange={(isOpen) => this.updateMenu(isOpen)}
                 >
                     <View style={styles.wrapper}>
-                        <Header navigator={this.props.navigator} toggleSideMenu={this.toggleSideMenu.bind(this)} />
+                        <Header navigation={this.props.navigation} toggleSideMenu={this.toggleSideMenu.bind(this)} />
                         <Slider />
-                        <List navigator={this.props.navigator} />
+                        <List navigation={this.props.navigation} />
                     </View>
 
                 </SideMenu>

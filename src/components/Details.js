@@ -35,16 +35,6 @@ export default class Details extends Component {
         Orientation.lockToPortrait();
     }
 
-    openVideo() {
-        const { name } = this.props.item;
-
-        Orientation.lockToLandscape();
-        this.props.navigator.push({
-            ident: 'Video',
-            title: name
-        });
-    }
-
     onShare() {
         Share.share({
             title: 'Designated Survivor',
@@ -74,9 +64,11 @@ export default class Details extends Component {
     }
 
     render() {
-        const { episodes } = this.props.item.details;
-        const { name } = this.props.item;
-        const { thumbnail, cast, description, year, creator, numOfEpisodes, season } = this.props.item.details;
+        const { params } = this.props.navigation.state;
+        const { episodes } = params.item.details;
+        const { navigate } = this.props.navigation;
+        const { name } = params.item;
+        const { thumbnail, cast, description, year, creator, numOfEpisodes, season } = params.item.details;
 
         return (
             <View style={styles.headerdWrapper}>
@@ -97,7 +89,9 @@ export default class Details extends Component {
                         style={styles.thumbnail}
                     />
                     <View style={styles.buttonPlay}>
-                        <TouchableWithoutFeedback onPress={() => this.openVideo()}>
+                        <TouchableWithoutFeedback 
+                            onPress={() => navigate('Video', {name: name})}
+                        >
                             <View>
                                 <Icon
                                     name="play-circle"
@@ -188,7 +182,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
     },
     descriptionWrapper: {
-        paddingHorizontal: 25,
+        paddingHorizontal: 30,
     },
     subtitle: {
         flexDirection: 'row',
@@ -229,7 +223,7 @@ const styles = StyleSheet.create({
         fontWeight: '100',
     },
     detailsWrapper: {
-        paddingHorizontal: 25
+        paddingHorizontal: 30
     },
     nameContainer: {
         backgroundColor: 'transparent',
@@ -243,11 +237,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
     },
     linearGradient: {
-        paddingLeft: 9,
+        paddingLeft: 10,
         paddingRight: 10,
         height: 50,
         width: '100%',
-        marginTop: -35,
+        marginTop: -40,
     },
     headerdWrapper: {
         flex: 1,

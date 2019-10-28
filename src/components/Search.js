@@ -1,47 +1,9 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text, StyleSheet, Image, TextInput, TouchableHighlight, TouchableWithoutFeedback, Dimensions, FlatList } from 'react-native';
-
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { getAll } from '../api/api';
 
 const { width, height } = Dimensions.get('window');
-
-const shows_first = [
-    {
-        key: 1,
-        name: 'Suits',
-        image: 'https://static.tvmaze.com/uploads/images/medium_portrait/0/2432.jpg'
-    },
-    {
-        key: 2,
-        name: 'Modern Family',
-        image: 'https://static.tvmaze.com/uploads/images/medium_portrait/0/628.jpg'
-    },
-    {
-        key: 3,
-        name: 'The Flash',
-        image: 'http://static.tvmaze.com/uploads/images/medium_portrait/129/323466.jpg'
-    },
-    {
-        key: 4,
-        name: 'SuperGirl',
-        image: 'http://static.tvmaze.com/uploads/images/medium_portrait/152/382219.jpg'
-    },
-    {
-        key: 5,
-        name: 'Suits',
-        image: 'http://static.tvmaze.com/uploads/images/medium_portrait/160/402351.jpg'
-    },
-    {
-        key: 6,
-        name: 'Elementary',
-        image: 'http://static.tvmaze.com/uploads/images/medium_portrait/0/1888.jpg'
-    },
-    {
-        key: 7,
-        name: 'Jack Irish',
-        image: 'http://static.tvmaze.com/uploads/images/medium_portrait/18/47317.jpg'
-    },
-]
 
 export default class Search extends Component {
     constructor(props) {
@@ -53,7 +15,8 @@ export default class Search extends Component {
     }
 
     filter(text) {
-        const newData = shows_first.filter(function (item) {
+        const data = getAll();
+        const newData = data.filter(function (item) {
             const itemData = item.name.toUpperCase();
             const textData = text.toUpperCase();
             return itemData.indexOf(textData) > -1;
@@ -68,17 +31,24 @@ export default class Search extends Component {
         this.setState({ text: '', data: '' });
     }
 
-    _renderItem(item) {
+    _renderItem(item){
+        const {navigate} = this.props.navigation
         return (
-            <Image
-                key={item.key}
-                source={{uri: item.image}}
-                style={styles.imageItem}
-            />
-        );
+            <TouchableWithoutFeedback onPress={
+                () => navigate('Details', {item: item})}
+            >
+                <Image style={styles.imageItem} source={{uri: item.image}}/>
+            </TouchableWithoutFeedback>
+        )
+    }
+
+    _back() {
+        const { goBack } = this.props.navigation;
+        goBack();
     }
 
     render() {
+        
         return (
             <View style={styles.wrapper}>
                 <View style={styles.header}>
@@ -107,10 +77,9 @@ export default class Search extends Component {
                             />
                         </TouchableWithoutFeedback>
                         : null}
-                    <TouchableHighlight 
+                    <TouchableHighlight
                         style={styles.cancelButton} 
-                        onPress={() => this.props.navigator.pop()}
-                    
+                        onPress={() => this._back()}     
                     >
                         <View style={styles.wrapperButton}>
                             <Text style={styles.cancelButtonText}>Cancel</Text>
@@ -156,6 +125,7 @@ const styles = StyleSheet.create({
         paddingLeft: 30,
         marginHorizontal: 10,
         borderRadius: 3,
+        color: 'grey'
 
     },
     cancelButton: {
@@ -189,5 +159,9 @@ const styles = StyleSheet.create({
     },
     flatList: {
         marginHorizontal: 5
-    }
+    },
+    picture: {
+        width: 120,
+        height: 180,
+    },
 });
