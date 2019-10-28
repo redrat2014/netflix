@@ -24,11 +24,11 @@ class TabsEpisodes extends Component {
     _renderScene({route}){
         switch(route.key){
             case 'first':
-                return <Episodes 
-                            // getSeason={this.props.getSeason}
-                            // seasons={this.props.seasons}
-                            // navigation={this.props.navigation}
-                            // currentSeason={this.props.currentSeason}
+                return <Episodes
+                            seasons={this.props.seasons}
+                            getSeason={this.props.getSeason}
+                            navigation={this.props.navigation}
+                            currentSeason={this.props.currentSeason}
                             episodes={this.props.data}
                         />
             case 'second':

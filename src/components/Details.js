@@ -29,6 +29,7 @@ class Details extends Component {
             measuresTitle: 0,
             measuresSeason: 0,
             scrollY: new Animated.Value(0),
+            currentSeason: 1,
         }
     }
 
@@ -51,14 +52,20 @@ class Details extends Component {
         });
     }
 
+    getSeason(season) {
+        this.setState({
+            currentSeason: season
+        });
+    }
+
     render() {
         const headerNameToggle = this.state.scrollY.interpolate({
-            inputRange : [this.state.measuresTitle, this.state.measuresTitle + 1],
+            inputRange: [this.state.measuresTitle, this.state.measuresTitle + 1],
             outputRange: [0, 1]
         });
         const headerSeasonHide = this.state.scrollY.interpolate({
             inputRange: [
-                this.state.measuresSeason - 1, 
+                this.state.measuresSeason - 1,
                 this.state.measuresSeason,
                 this.state.measuresSeason + 1
             ],
@@ -77,30 +84,48 @@ class Details extends Component {
 
         return (
             <View style={styles.headerdWrapper}>
-                <TouchableHighlight 
+                <TouchableHighlight
                     style={styles.closeButton}
                     onPress={() => goBack()}
                 >
-                    <Icon 
+                    <Icon
                         name="times"
                         color="white"
                         size={18}
                     />
                 </TouchableHighlight>
-                    <Animated.View style={[styles.header, {opacity: headerNameToggle}]}>
-                        <Text style={styles.headerText}>{name}</Text>
-                    </Animated.View>
-                    <Animated.View style={[styles.header, 
-                        {opacity: headerSeasonToggle, transform: [{translateY: 0}, {translateX: headerSeasonHide}]}]}
-                    >
-                        <Text style={styles.headerText}>Season 1</Text>
-                    </Animated.View> 
+                <Animated.View style={[styles.header, { opacity: headerNameToggle }]}>
+                    <Text style={styles.headerText}>{name}</Text>
+                </Animated.View>
+                <Animated.View style={[styles.header,
+                { opacity: headerSeasonToggle, transform: [{ translateY: 0 }, { translateX: headerSeasonHide }] }]}
+                >
+                    {season == 1 ? <TouchableHighlight>
+                        <Text style={styles.headerText}>Season {this.state.currentSeason}</Text>
+                    </TouchableHighlight> :
+                        <TouchableHighlight
+                            onPress={() => navigate('EpisodesPicker', {
+                                getSeason: this.getSeason.bind(this),
+                                seasons: season,
+                                currentSeason: this.state.currentSeason
+                            })}>
+                            <View style={styles.headerWithIcon}>
+                                <Text style={styles.headerText}>Season {this.state.currentSeason}</Text>
+                                <Icon
+                                    style={styles.iconDown}
+                                    name="chevron-down"
+                                    color="white"
+                                    size={15}
+                                />
+                            </View>
+                        </TouchableHighlight>}
+                </Animated.View>
                 <Animated.ScrollView
                     scrollEventThrottle={1}
                     onScroll={
                         Animated.event(
-                            [{nativeEvent: {contentOffset: {y:this.state.scrollY}}}],
-                            {useNativeDriver: true}
+                            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+                            { useNativeDriver: true }
                         )
                     }
                     style={styles.wrapper}
@@ -110,8 +135,8 @@ class Details extends Component {
                         style={styles.thumbnail}
                     />
                     <View style={styles.buttonPlay}>
-                        <TouchableWithoutFeedback 
-                            onPress={() => navigate('Video', {name: name})}
+                        <TouchableWithoutFeedback
+                            onPress={() => navigate('Video', { name: name })}
                         >
                             <View>
                                 <Icon
@@ -175,11 +200,17 @@ class Details extends Component {
                         </View>
                     </View>
                     <View onLayout={({ nativeEvent }) => {
-                            this.setState({
-                                measuresSeason: nativeEvent.layout.y + 10
-                            });
-                        }}>
-                        <TabsEpisodes data={episodes} />
+                        this.setState({
+                            measuresSeason: nativeEvent.layout.y + 10
+                        });
+                    }}>
+                        <TabsEpisodes
+                            seasons={season}
+                            getSeason={this.getSeason.bind(this)}
+                            navigation={this.props.navigation}
+                            data={episodes}
+                            currentSeason={this.state.currentSeason}
+                        />
                     </View>
                 </Animated.ScrollView>
             </View>
@@ -293,5 +324,12 @@ const styles = StyleSheet.create({
     headerText: {
         color: 'white',
         fontSize: 20
+    },
+    headerWithIcon: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    iconDown: {
+        marginLeft: 5,
     }
 });
