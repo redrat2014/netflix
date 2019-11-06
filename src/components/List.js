@@ -28,9 +28,10 @@ export default class List extends Component {
             </TouchableWithoutFeedback>
         )
     }
+    
 
     render() {
-        console.log(this.props)
+        const {getTwoRows} = this.props
         return (
             <ScrollView style={styles.wrapper}>
                 <View style={styles.listWrapper}>
@@ -39,7 +40,7 @@ export default class List extends Component {
                         horizontal
                         ItemSeparatorComponent={() => <View style={styles.separator} />}
                         renderItem={({ item }) => this._renderItem(item)}
-                        data={getTwoItems[0]}
+                        data={getTwoRows()[0]}
                     />
                 </View>
                 <View style={styles.listWrapper}>
@@ -48,7 +49,7 @@ export default class List extends Component {
                         horizontal
                         ItemSeparatorComponent={() => <View style={styles.separator} />}
                         renderItem={({ item }) => this._renderItem(item)}
-                        data={getTwoItems[1]}
+                        data={getTwoRows()[1]}
                     />
                 </View>
                 <View style={styles.listWrapper}>
@@ -57,7 +58,7 @@ export default class List extends Component {
                         horizontal
                         ItemSeparatorComponent={() => <View style={styles.separator} />}
                         renderItem={({ item }) => this._renderItem(item)}
-                        data={getTwoItems[0]}
+                        data={getTwoRows()[0]}
                     />
                 </View>
             </ScrollView>

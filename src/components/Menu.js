@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, Image, Dimensions, TouchableHighlight } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -9,7 +9,23 @@ import userImage from '../images/user.png';
 const { width, height } = Dimensions.get('window');
 
 export default class Menu extends Component {
+    
+    _renderItemsMenu(){
+        const genres = ["Home","Drama","Action","Fantasy","Horror","Romance","Crime","Thriller","Mystery","Science-Fiction","Comedy","Family","Music","Adventure","Espionage","Supernatural"]
+        const {itemSelectedValue} = this.props
+        return genres.map((element, key) => (
+            <TouchableHighlight 
+                key={key}
+                style={element == itemSelectedValue ? [styles.items, styles.itemSelected]: styles.noSelectedItems}
+                onPress={() => this.props.itemSelected(element)}    
+            >
+                <Text style={styles.text}>{element}</Text>
+            </TouchableHighlight>
+        ))
+    }
+
     render() {
+        const { navigate } = this.props.navigation;
         return (
             <View style={styles.wrapper}>
                 <View style={styles.avatarWrapper}>
@@ -61,42 +77,7 @@ export default class Menu extends Component {
                             style={styles.rightIcon}
                         />
                     </View>
-                    <View style={[styles.items, styles.itemSelected]}>
-                        <Text style={styles.itemText}>Home</Text>
-                    </View>
-                    <View style={styles.noSelectedItems}>
-                        <Text style={styles.itemText}>Available for Download</Text>
-                    </View>
-                    <View style={styles.noSelectedItems}>
-                        <Text style={styles.itemText}>Netflix Originals</Text>
-                    </View>
-                    <View style={styles.noSelectedItems}>
-                        <Text style={styles.itemText}>TV Shows</Text>
-                    </View>
-                    <View style={styles.noSelectedItems}>
-                        <Text style={styles.itemText}>Action & Adventure</Text>
-                    </View>
-                    <View style={styles.noSelectedItems}>
-                        <Text style={styles.itemText}>Children & Family</Text>
-                    </View>
-                    <View style={styles.noSelectedItems}>
-                        <Text style={styles.itemText}>Comedy</Text>
-                    </View>
-                    <View style={styles.noSelectedItems}>
-                        <Text style={styles.itemText}>Documentary</Text>
-                    </View>
-                    <View style={styles.noSelectedItems}>
-                        <Text style={styles.itemText}>Drama</Text>
-                    </View>
-                    <View style={styles.noSelectedItems}>
-                        <Text style={styles.itemText}>Terror</Text>
-                    </View>
-                    <View style={styles.noSelectedItems}>
-                        <Text style={styles.itemText}>Independent Movies</Text>
-                    </View>
-                    <View style={styles.noSelectedItems}>
-                        <Text style={styles.itemText}>Indian Movies</Text>
-                    </View>
+                   {this._renderItemsMenu()}
                 </ScrollView>
             </View>
         );
@@ -129,6 +110,10 @@ const styles = StyleSheet.create({
         width: 60,
         height: 60,
         marginRight: 20,
+    },
+    text: {
+        color: '#b3b3b3',
+        fontSize: 15
     },
     textName: {
         color: "#b3b3b3",
